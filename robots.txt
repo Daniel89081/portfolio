@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /js/
+
+Sitemap: https://jannisdietrich.com/sitemap-index.xml

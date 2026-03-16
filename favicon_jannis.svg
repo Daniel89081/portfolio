@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <style>
+    text { font-family: 'Georgia', 'EB Garamond', serif; font-weight: 600; }
+    @media (prefers-color-scheme: light) {
+      rect { fill: #000; }
+      text { fill: #fff; }
+    }
+    @media (prefers-color-scheme: dark) {
+      rect { fill: #fff; }
+      text { fill: #000; }
+    }
+  </style>
+  <rect width="128" height="128" rx="20" fill="#000"/>
+  <text x="64" y="88" text-anchor="middle" font-size="72" fill="#fff">JD</text>
+</svg>
