@@ -1,1 +1,0 @@
-const fs = require('fs'); const s = fs.readFileSync('index.html', 'utf8'); const idx = s.indexOf('view-education'); fs.writeFileSync('education_extracted.txt', s.substring(Math.max(0, idx - 100), idx + 5000));
