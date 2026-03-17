@@ -19,7 +19,7 @@
     <!-- Master inline Accordion -->
     <!-- ====================== -->
     <section class="edu-degree-accordion animate my-6 border border-black/10 dark:border-white/10 rounded-xl overflow-hidden" data-astro-cid-j7pv25f6>
-      <div class="edu-accordion-header flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 px-5 py-4 cursor-pointer bg-black/[0.02] dark:bg-white/[0.03]" data-accordion-toggle data-astro-cid-j7pv25f6>
+      <div class="edu-accordion-header flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 px-5 py-4 cursor-pointer bg-black/[0.02] dark:bg-white/[0.03]" data-accordion-toggle role="button" tabindex="0" aria-expanded="false" data-astro-cid-j7pv25f6>
         <div>
           <div class="font-semibold text-lg" data-i18n="edu.mscTitle">M.Sc. Physics and Management</div>
           <div class="text-sm text-black/60 dark:text-white/60" data-i18n="edu.mscUni">Universität Ulm</div>
@@ -55,7 +55,7 @@
     <!-- Bachelor inline Accordion -->
     <!-- ====================== -->
     <section class="edu-degree-accordion animate my-6 border border-black/10 dark:border-white/10 rounded-xl overflow-hidden" data-astro-cid-j7pv25f6>
-      <div class="edu-accordion-header flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 px-5 py-4 cursor-pointer bg-black/[0.02] dark:bg-white/[0.03]" data-accordion-toggle data-astro-cid-j7pv25f6>
+      <div class="edu-accordion-header flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 px-5 py-4 cursor-pointer bg-black/[0.02] dark:bg-white/[0.03]" data-accordion-toggle role="button" tabindex="0" aria-expanded="false" data-astro-cid-j7pv25f6>
         <div>
           <div class="font-semibold text-lg" data-i18n="edu.bscTitle">B.Sc. Physics</div>
           <div class="text-sm text-black/60 dark:text-white/60" data-i18n="edu.bscUni">Universität Ulm</div>
@@ -1226,6 +1226,16 @@ B.Sc. Physics
 (function() {
   function initBigEducationAccordions() {
     document.querySelectorAll('[data-accordion-toggle]').forEach(header => {
+      const currentSection = header.closest('section');
+      header.setAttribute('aria-expanded', currentSection && currentSection.classList.contains('open') ? 'true' : 'false');
+
+      header.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          header.click();
+        }
+      });
+
       header.addEventListener('click', function(e) {
         // Verhindert, dass Links oder Buttons im Header doppelt feuern
         if (e.target.closest('a, button:not(.edu-accordion-btn)')) return;
@@ -1242,6 +1252,8 @@ B.Sc. Physics
         document.querySelectorAll('#view-education section.open').forEach(s => {
           if (s !== section) {
             s.classList.remove('open');
+            const otherHeader = s.querySelector('[data-accordion-toggle]');
+            if (otherHeader) otherHeader.setAttribute('aria-expanded', 'false');
             const c = s.querySelector('.edu-accordion-content');
             if (c) {
               c.style.maxHeight = '0';
@@ -1254,11 +1266,13 @@ B.Sc. Physics
           content.style.maxHeight = '0';
           content.style.opacity = '0';
           section.classList.remove('open');
+          header.setAttribute('aria-expanded', 'false');
         } else {
           // scrollHeight + etwas Puffer für Sicherheit
           content.style.maxHeight = (content.scrollHeight + 60) + 'px';
           content.style.opacity = '1';
           section.classList.add('open');
+          header.setAttribute('aria-expanded', 'true');
         }
       });
     });
